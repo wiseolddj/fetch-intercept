@@ -68,6 +68,8 @@ function FetchIntercept(options) {
       self.log('Original Fetch for ' + url)
       return originalFetch(url, options)
     }
+    self.log('Mock found for ' + url)
+    self.log(JSON.stringify(mock, null, 2));
 
     var responseOptions = {
       "status": mock.status ? mock.status : 200,
@@ -86,18 +88,18 @@ function FetchIntercept(options) {
            })
              .then(function(originalData){
                var modifiedData = deepMerge(originalData, mock.body);
-
+               self.log('Modified Response for ' + url);
                return new Response(JSON.stringify(modifiedData), responseOptions)
              })
           }
-        self.log('Modified Response for ' + url)
+        self.log('Mocked response for' + url);
         return Promise.resolve(new Response(JSON.stringify(mock.body), responseOptions));
       }
-      self.log('Mocked response for' + url)
+      self.log('Mocked response for' + url);
       return Promise.resolve(new Response(mock.body, responseOptions));
 
     }
-    self.log('ERROR mocking Fetch for ' + url)
+    self.log('ERROR mocking Fetch for ' + url);
     return Promise.resolve(new Response('Mock Intercept FAILED', {"status": 503, "statusText": "FAILED MOCK"}))
 
   };
