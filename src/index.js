@@ -27,9 +27,10 @@ var deepMerge = function () {
   return extended;
 };
 
+var originalFetch = window.fetch;
+
 function FetchIntercept() {
   var self = this;
-  self.originalFetch = window.fetch;
   self.mocks = {};
 
   self.mock = function (url, options) {
@@ -53,7 +54,7 @@ function FetchIntercept() {
     var mock = self._urlIsMocked(url)
     if (!mock) {
       console.log('Original Fetch')
-      return self.originalFetch(url, options)
+      return originalFetch(url, options)
     }
 
     var responseOptions = {
@@ -67,7 +68,7 @@ function FetchIntercept() {
 
          if(mock.modify){
 
-           return self.originalFetch(url, options)
+           return originalFetch(url, options)
              .then(function(res) {
                  return res.json()
            })
@@ -92,6 +93,4 @@ function FetchIntercept() {
   window.fetch = this.interceptedFetch;
 };
 
-module.exports = {
-  FetchIntercept: FetchIntercept
-};
+module.exports =  FetchIntercept;

@@ -1,6 +1,6 @@
 {
-  "name": "fetch-intercept",
-  "version": "0.1.0",
+  "name": "fetch-intercept-mock",
+  "version": "0.1.1",
   "description": "A simple way to mock api calls for front-end testing and debugging",
   "main": "src/index.js",
   "scripts": {

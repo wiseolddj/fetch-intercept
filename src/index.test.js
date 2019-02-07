@@ -1,4 +1,4 @@
-const { FetchIntercept } = require('./index');
+const FetchIntercept = require('./index');
 const crossFetch = require('cross-fetch')
 global.fetch = crossFetch.fetch
 global.Response = crossFetch.Response
