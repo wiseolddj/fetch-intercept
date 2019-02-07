@@ -1,0 +1,25 @@
+{
+  "name": "fetch-intercept",
+  "version": "0.1.0",
+  "description": "A simple way to mock api calls for front-end testing and debugging",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wiseolddj/fetch-intercept.git"
+  },
+  "keywords": [
+    "testing",
+    "fetch",
+    "mock",
+    "intercept"
+  ],
+  "author": "DJ Clack",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wiseolddj/fetch-intercept/issues"
+  },
+  "homepage": "https://github.com/wiseolddj/fetch-intercept#readme"
+}
