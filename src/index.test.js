@@ -1,9 +1,11 @@
-const FetchIntercept = require('./index');
+
 const crossFetch = require('cross-fetch')
 global.fetch = crossFetch.fetch
 global.Response = crossFetch.Response
 global.Headers = crossFetch.Headers
 global.Request = crossFetch.Request
+
+const FetchIntercept = require('./index');
 
 describe('intercept',() => {
   let intercept

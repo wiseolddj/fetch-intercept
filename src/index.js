@@ -29,13 +29,25 @@ var deepMerge = function () {
 
 var originalFetch = window.fetch;
 
-function FetchIntercept() {
+var defaultOptions = {
+  debug: false,
+}
+
+function FetchIntercept(options) {
+  var userOptions = typeof options === 'object' ? options : {};
+  this.opts = deepMerge(defaultOptions, userOptions);
   var self = this;
   self.mocks = {};
 
   self.mock = function (url, options) {
     self.mocks[url] = options;
   };
+
+  self.log = function(message) {
+    if(self.opts.debug) {
+      console.log('>FETCH:  ' + message)
+    }
+  }
 
   self._urlIsMocked = function (urlToMatch) {
     var urls = Object.keys(self.mocks);
@@ -53,7 +65,7 @@ function FetchIntercept() {
   self.interceptedFetch = function (url, options) {
     var mock = self._urlIsMocked(url)
     if (!mock) {
-      console.log('Original Fetch')
+      self.log('Original Fetch for ' + url)
       return originalFetch(url, options)
     }
 
@@ -78,14 +90,14 @@ function FetchIntercept() {
                return new Response(JSON.stringify(modifiedData), responseOptions)
              })
           }
-
+        self.log('Modified Response for ' + url)
         return Promise.resolve(new Response(JSON.stringify(mock.body), responseOptions));
       }
-
+      self.log('Mocked response for' + url)
       return Promise.resolve(new Response(mock.body, responseOptions));
 
     }
-
+    self.log('ERROR mocking Fetch for ' + url)
     return Promise.resolve(new Response('Mock Intercept FAILED', {"status": 503, "statusText": "FAILED MOCK"}))
 
   };
